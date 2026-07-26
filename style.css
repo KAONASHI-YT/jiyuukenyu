@@ -1020,7 +1020,7 @@ body::before {
 
   /* セクション見出しの調整 */
   .section-title-wrap {
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.6rem !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
@@ -1061,8 +1061,8 @@ body::before {
     border-top: 3px solid #b8860b !important;
     color: #111827 !important;
     box-shadow: none !important;
-    padding: 1rem !important; /* 余白を縮小して1ページへの収まりを向上 */
-    margin-bottom: 1.2rem !important;
+    padding: 0.8rem !important; /* 余白をさらに縮小して1ページへの収まりを最大化 */
+    margin-bottom: 1rem !important;
     /* ページ境界でカードが分割されるのを防止 */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -1083,7 +1083,7 @@ body::before {
 
   /* 研究方法 (フローチャート) 印刷時コンパクト化（「狙いや動機」と同ページに収めるため） */
   .flow-container {
-    gap: 0.1rem !important; /* カードと矢印の隙間を狭く */
+    gap: 0 !important; /* 隙間をゼロに */
   }
 
   .flow-step-card {
@@ -1093,36 +1093,38 @@ body::before {
     box-shadow: none !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    padding: 0.4rem 0.8rem !important; /* 内側余白を小さく */
-    margin: 0 !important;
-    grid-template-columns: 36px 1fr !important; /* バッジエリアを狭く */
-    gap: 0.6rem !important;
+    padding: 0.35rem 0.6rem !important; /* 内側余白を小さく */
+    margin: 0 0 0.3rem 0 !important; /* カードの下部に極小のマージンを設定 */
+    grid-template-columns: 28px 1fr !important; /* バッジエリアを狭く */
+    gap: 0.5rem !important;
   }
 
   .flow-badge {
     background: #b8860b !important;
     color: #ffffff !important;
-    width: 26px !important; /* 丸数字バッジを縮小 */
-    height: 26px !important;
-    font-size: 0.8rem !important;
+    width: 22px !important; /* 丸数字バッジをさらに縮小 */
+    height: 22px !important;
+    font-size: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .flow-content h4 {
     color: #8b6508 !important;
-    font-size: 9.5pt !important;
-    margin-bottom: 0.1rem !important;
+    font-size: 9pt !important;
+    margin: 0 !important; /* マージンをゼロに */
   }
 
   .flow-content p {
     color: #4b5563 !important;
-    font-size: 8.5pt !important;
-    line-height: 1.35 !important;
+    font-size: 8.2pt !important;
+    line-height: 1.3 !important;
   }
 
+  /* 印刷時は下矢印（▼）を非表示にして縦幅を大幅に節約 */
   .flow-arrow-down {
-    margin: 0.05rem auto !important; /* 矢印の余白をほぼゼロに */
-    font-size: 0.75rem !important;
-    height: auto !important;
+    display: none !important;
   }
 
   /* 実験カードの印刷分割回避（実験1と実験2を同一ページに収めるようコンパクトに設計） */

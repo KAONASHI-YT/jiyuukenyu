@@ -939,7 +939,8 @@ body::before {
   .no-print,
   .action-bar-floating,
   .modal-overlay,
-  .exp-image-zoom-hint {
+  .exp-image-zoom-hint,
+  .divider-wafu {
     display: none !important;
   }
 
@@ -1019,9 +1020,19 @@ body::before {
 
   /* セクション見出しの調整 */
   .section-title-wrap {
-    margin-bottom: 1.2rem !important;
-    page-break-after: avoid;
-    break-after: avoid;
+    margin-bottom: 1rem !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* セクションごとの強制改ページによるページ割りの完全制御 */
+  #motivation,
+  #method,
+  #experiments,
+  #results-table,
+  #safety-checklist {
+    page-break-before: always !important;
+    break-before: page !important;
   }
 
   .section-title {
@@ -1043,11 +1054,11 @@ body::before {
     border-top: 3px solid #b8860b !important;
     color: #111827 !important;
     box-shadow: none !important;
-    padding: 1.2rem !important;
-    margin-bottom: 1.5rem !important;
+    padding: 1rem !important; /* 余白を縮小して1ページへの収まりを向上 */
+    margin-bottom: 1.2rem !important;
     /* ページ境界でカードが分割されるのを防止 */
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .wafu-card::before { display: none; }
@@ -1081,15 +1092,17 @@ body::before {
   .flow-content h4 { color: #8b6508 !important; }
   .flow-content p { color: #4b5563 !important; }
 
-  /* 実験カードの印刷分割回避 */
+  /* 実験カードの印刷分割回避（各実験カードを1ページずつに割り振る） */
   .exp-card {
     background: #ffffff !important;
     border: 1px solid #d1d5db !important;
     color: #111827 !important;
     box-shadow: none !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin-bottom: 1.5rem !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 0 !important;
+    page-break-after: always !important; /* 各実験カードをそれぞれ1ページで独立させる */
+    break-after: page !important;
   }
 
   .exp-card-header {

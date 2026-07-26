@@ -1,0 +1,1373 @@
+/* ==========================================================================
+   インターネットの危険性について - 自由研究 Webサイト用スタイル
+   デザインテーマ：和風 × サイバー（ダークモード & 金箔・和柄アクセント）
+   印刷仕様：A4縦印刷対応 (@media print)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. デザインシステム & カスタムプロパティ (変数定義)
+   -------------------------------------------------------------------------- */
+:root {
+  /* メインカラー */
+  --bg-dark: #07090e;         /* 漆黒・深い闇 */
+  --bg-navy: #0e1525;         /* 濃紺 */
+  --bg-card: #131c2e;         /* 墨色カード背景 */
+  --bg-card-hover: #19253d;   /* ホバー時カード背景 */
+
+  /* アクセントカラー */
+  --gold-primary: #d4af37;    /* 本金 */
+  --gold-light: #f5e4a8;      /* 黄金光 */
+  --gold-dark: #997a15;       /* 古美金 */
+  --gold-gradient: linear-gradient(135deg, #a67c1e 0%, #f5e4a8 40%, #d4af37 70%, #8a6414 100%);
+  --crimson-accent: #c41e3a;  /* 深紅・アクセント */
+  --cyber-cyan: #00e5ff;      /* サイバーシアン（光効果） */
+  --cyber-cyan-glow: rgba(0, 229, 255, 0.25);
+
+  /* 文字色 */
+  --text-main: #f0f4f8;       /* 主本文（白銀） */
+  --text-sub: #a0aec0;        /* 補足文章（薄墨） */
+  --text-gold: #f3e5ab;       /* 金文字 */
+
+  /* 枠線・影 */
+  --border-gold-thin: 1px solid rgba(212, 175, 55, 0.35);
+  --border-gold-thick: 2px solid rgba(212, 175, 55, 0.7);
+  --box-shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.15);
+  --box-shadow-cyber: 0 0 15px rgba(0, 229, 255, 0.2);
+
+  /* フォントスタック */
+  --font-title: 'Shippori Mincho', 'Yuji Syuku', 'Noto Serif JP', serif;
+  --font-body: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+
+  /* サイズ定義 */
+  --max-width: 1000px;
+  --border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   2. 全体リセット & 基本スタイル
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  /* 和紙の質感とベースグラデーション */
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(14, 21, 37, 0.8) 0%, rgba(7, 9, 14, 0.95) 70%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 背景模様（ヘキサゴン＆青海波のサイバー融合オーバーレイ） */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  background-image: 
+    /* ヘキサゴン（六角形）グリッド */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='0.6'%3E%3Cpath d='M14 0l14 8v16l-14 8L0 24V8zM14 49l14-8V25l-14-8L0 25v16z'/%3E%3C/g%3E%3C/svg%3E"),
+    /* 青海波風円弧 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath d='M0 40 A40 40 0 0 1 80 40 M10 40 A30 30 0 0 1 70 40 M20 40 A20 20 0 0 1 60 40 M30 40 A10 10 0 0 1 50 40' fill='none' stroke='%2300e5ff' stroke-width='0.4' opacity='0.3'/%3E%3C/svg%3E");
+}
+
+/* アプリ全体系コンテナ */
+.app-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3. 共通見出し・和風装飾コンポーネント
+   -------------------------------------------------------------------------- */
+
+/* 和モダン見出しコンテナ */
+.section-title-wrap {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.section-number {
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  color: var(--crimson-accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.section-title {
+  font-family: var(--font-title);
+  font-size: 1.85rem;
+  color: var(--text-gold);
+  display: inline-block;
+  position: relative;
+  padding: 0 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* 見出しの左右飾り線 */
+.section-title::before,
+.section-title::after {
+  content: "◆";
+  font-size: 0.8rem;
+  color: var(--gold-primary);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.section-title::before { left: -0.5rem; }
+.section-title::after { right: -0.5rem; }
+
+.section-title-underline {
+  height: 2px;
+  width: 120px;
+  margin: 0.6rem auto 0;
+  background: var(--gold-gradient);
+  position: relative;
+  border-radius: 2px;
+}
+
+.section-title-underline::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--crimson-accent);
+  rotate: 45deg;
+}
+
+/* 和風仕切り線（くもがすみ/波線） */
+.divider-wafu {
+  height: 20px;
+  margin: 3.5rem 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q 25 0, 50 10 T 100 10' fill='none' stroke='%23d4af37' stroke-width='1' opacity='0.4'/%3E%3Ccircle cx='50' cy='10' r='3' fill='%23c41e3a'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* セクション用和モダンカード枠 */
+.wafu-card {
+  background: var(--bg-card);
+  border: var(--border-gold-thin);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  position: relative;
+  box-shadow: var(--box-shadow-gold);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* 四隅の和風飾り金枠角 (Corner Accents) */
+.wafu-card::before {
+  content: "";
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px dashed rgba(212, 175, 55, 0.2);
+  border-radius: calc(var(--border-radius) - 2px);
+  pointer-events: none;
+}
+
+/* ホバーエフェクト */
+.wafu-card:hover {
+  border-color: rgba(212, 175, 55, 0.8);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25), var(--box-shadow-cyber);
+  transform: translateY(-3px);
+}
+
+/* アイコンスタイル */
+.icon-inline {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: -0.2em;
+  fill: currentColor;
+  display: inline-block;
+}
+
+.icon-gold {
+  color: var(--gold-primary);
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.5));
+}
+
+/* --------------------------------------------------------------------------
+   4. ヘッダー & セクション 1: テーマ (タイトル)
+   -------------------------------------------------------------------------- */
+.header-banner {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: linear-gradient(180deg, rgba(14, 21, 37, 0.95) 0%, rgba(19, 28, 46, 0.85) 100%);
+  border: var(--border-gold-thick);
+  border-radius: calc(var(--border-radius) * 1.5);
+  margin-bottom: 3rem;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(212, 175, 55, 0.08);
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1.2rem;
+  background: rgba(196, 30, 58, 0.2);
+  border: 1px solid var(--crimson-accent);
+  color: #ff8fa3;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.2rem;
+}
+
+.header-title-main {
+  font-family: var(--font-title);
+  font-size: 2.6rem;
+  line-height: 1.3;
+  color: #ffffff;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
+}
+
+.header-title-sub {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--text-gold);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.header-meta-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.header-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* 提出者情報エリア（学校名、クラス、氏名） */
+.header-student-info {
+  max-width: 340px;
+  margin: 2rem auto 1.5rem;
+  padding: 1.2rem 1.8rem;
+  background: rgba(14, 21, 37, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: var(--border-radius);
+  text-align: left;
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.05);
+}
+
+.student-info-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.25);
+  padding: 0.5rem 0;
+  gap: 1.5rem;
+}
+
+.student-info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-family: var(--font-title);
+  color: var(--text-gold);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.info-value {
+  color: var(--text-main);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   5. セクション 2: 研究の狙いや動機
+   -------------------------------------------------------------------------- */
+.motivation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.motivation-text p {
+  margin-bottom: 1.2rem;
+  color: var(--text-main);
+  text-align: justify;
+}
+
+.motivation-highlight {
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 3px solid var(--gold-primary);
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  font-weight: 600;
+  color: var(--text-gold);
+}
+
+.motivation-graphic {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: var(--border-gold-thin);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.motivation-graphic img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.motivation-graphic:hover img {
+  transform: scale(1.03);
+}
+
+.graphic-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(7, 9, 14, 0.85);
+  color: var(--text-sub);
+  font-size: 0.78rem;
+  padding: 0.4rem 0.8rem;
+  text-align: center;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   6. セクション 3: 研究方法 (フローチャート)
+   -------------------------------------------------------------------------- */
+.flowchart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.flow-step-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  background: var(--bg-card);
+  border: var(--border-gold-thin);
+  border-radius: var(--border-radius);
+  padding: 1.2rem 1.5rem;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.flow-step-card:hover {
+  transform: translateX(6px);
+  border-color: var(--gold-primary);
+}
+
+.flow-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  color: var(--bg-dark);
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.flow-content h4 {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  color: var(--text-gold);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flow-content p {
+  font-size: 0.92rem;
+  color: var(--text-sub);
+}
+
+/* 矢印コネクタ */
+.flow-arrow {
+  text-align: center;
+  color: var(--gold-primary);
+  font-size: 1.4rem;
+  line-height: 1;
+  margin: -0.4rem 0;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.6));
+}
+
+/* --------------------------------------------------------------------------
+   7. セクション 4: 実験カード (複数枚表示)
+   -------------------------------------------------------------------------- */
+.experiments-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.exp-card {
+  background: var(--bg-card);
+  border: var(--border-gold-thin);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-gold);
+}
+
+.exp-card-header {
+  background: linear-gradient(90deg, rgba(14, 21, 37, 0.9) 0%, rgba(26, 37, 61, 0.9) 100%);
+  padding: 0.9rem 1.5rem;
+  border-bottom: var(--border-gold-thin);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exp-title {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.exp-tag {
+  background: rgba(196, 30, 58, 0.25);
+  color: #ff9ebb;
+  border: 1px solid rgba(196, 30, 58, 0.6);
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.exp-card-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.exp-image-box {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+}
+
+.exp-image-box img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.exp-image-box:hover img {
+  transform: scale(1.05);
+}
+
+.exp-image-zoom-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(7, 9, 14, 0.8);
+  color: var(--gold-light);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  pointer-events: none;
+}
+
+.exp-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.exp-detail-item {
+  background: rgba(7, 9, 14, 0.4);
+  padding: 0.6rem 0.9rem;
+  border-radius: 4px;
+  border-left: 2px solid var(--gold-primary);
+}
+
+.exp-detail-label {
+  font-size: 0.8rem;
+  color: var(--gold-light);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.exp-detail-val {
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.exp-flow-box {
+  grid-column: 1 / -1;
+  background: rgba(14, 21, 37, 0.6);
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  padding: 1rem 1.2rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.exp-flow-title {
+  font-size: 0.85rem;
+  color: var(--gold-primary);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.exp-flow-text {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   8. セクション 5: 結果まとめ (表形式)
+   -------------------------------------------------------------------------- */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+  border: var(--border-gold-thin);
+  box-shadow: var(--box-shadow-gold);
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: var(--bg-card);
+}
+
+.result-table th {
+  background: linear-gradient(180deg, #182236 0%, #0e1525 100%);
+  color: var(--text-gold);
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  padding: 1rem 1.2rem;
+  border-bottom: 2px solid var(--gold-primary);
+  white-space: nowrap;
+}
+
+.result-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.result-table tr:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.status-badge-success {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.stars-rating {
+  color: #f59e0b;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. セクション 6: 考察
+   -------------------------------------------------------------------------- */
+.discussion-box {
+  background: var(--bg-card);
+  border: var(--border-gold-thin);
+  border-radius: var(--border-radius);
+  padding: 2.2rem;
+  box-shadow: var(--box-shadow-gold);
+  position: relative;
+}
+
+.discussion-box p {
+  margin-bottom: 1.4rem;
+  text-align: justify;
+  line-height: 1.85;
+}
+
+.discussion-quote {
+  border-left: 3px solid var(--crimson-accent);
+  background: rgba(196, 30, 58, 0.08);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+  font-family: var(--font-title);
+  color: var(--text-gold);
+  font-size: 1.05rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. セクション 7: 安全に利用するためには (チェックリスト)
+   -------------------------------------------------------------------------- */
+.checklist-card {
+  background: var(--bg-card);
+  border: var(--border-gold-thin);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+}
+
+.checklist-progress-bar-bg {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.8rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.checklist-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gold-gradient);
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+}
+
+.checklist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(7, 9, 14, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 1rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.checklist-item:hover {
+  background: rgba(19, 28, 46, 0.8);
+  border-color: var(--gold-primary);
+}
+
+.checklist-item.checked {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.custom-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--gold-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.checklist-item.checked .custom-checkbox {
+  background: #4ade80;
+  border-color: #4ade80;
+  color: #07090e;
+}
+
+.checklist-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+/* --------------------------------------------------------------------------
+   11. セクション 8: まとめ
+   -------------------------------------------------------------------------- */
+.summary-banner {
+  background: linear-gradient(135deg, rgba(14, 21, 37, 0.95) 0%, rgba(26, 37, 61, 0.95) 100%);
+  border: 2px solid var(--gold-primary);
+  border-radius: calc(var(--border-radius) * 1.2);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.15);
+  position: relative;
+}
+
+.summary-headline {
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+  color: var(--text-gold);
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+.summary-body {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* --------------------------------------------------------------------------
+   12. 操作ボタン・フローティングUI & モーダル
+   -------------------------------------------------------------------------- */
+.action-bar-floating {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+
+.btn-wafu {
+  background: var(--gold-gradient);
+  color: #07090e;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-wafu:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.7);
+}
+
+.btn-secondary-wafu {
+  background: rgba(14, 21, 37, 0.9);
+  color: var(--text-gold);
+  border: var(--border-gold-thin);
+  padding: 0.8rem 1.2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+}
+
+/* モーダルダイアログ */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(7, 9, 14, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border: 2px solid var(--gold-primary);
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+  object-fit: contain;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: rgba(196, 30, 58, 0.8);
+  color: #fff;
+  border: none;
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   13. スクロールフェードインアニメーション
+   -------------------------------------------------------------------------- */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   14. レスポンシブ対応 (画面サイズごとの調整)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .header-title-main { font-size: 1.9rem; }
+  .header-title-sub { font-size: 1.1rem; }
+  .motivation-grid { grid-template-columns: 1fr; }
+  .exp-card-body { grid-template-columns: 1fr; }
+  .exp-image-box img { height: 200px; }
+  .flow-step-card { grid-template-columns: 60px 1fr; gap: 0.8rem; }
+  .flow-badge { width: 48px; height: 48px; font-size: 1rem; }
+}
+
+/* --------------------------------------------------------------------------
+   15. 【最重要】 印刷用CSS (@media print) - A4縦最適化
+   -------------------------------------------------------------------------- */
+@media print {
+  /* ページサイズの設定 (A4 Portrait, 適切な余白) */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm 15mm 15mm;
+  }
+
+  /* 色彩調整：紙印刷時に可読性の高いエレガント生成り和紙風背景とくっきりテキスト */
+  body {
+    background-color: #fdfbf7 !important; /* 明るい上質和紙カラー */
+    background-image: none !important;
+    color: #111827 !important;
+    font-size: 10.5pt;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  .app-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 非表示にする画面専用UI要素 */
+  .no-print,
+  .action-bar-floating,
+  .modal-overlay,
+  .exp-image-zoom-hint {
+    display: none !important;
+  }
+
+  /* スクロールアニメーション初期の非表示を強制解除 */
+  .animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* ヘッダー・タイトルの印刷スタイル（表紙/カバーページとして1ページ全体に表示） */
+  .header-banner {
+    background: #f7f3e8 !important;
+    border: 2px solid #b8860b !important;
+    color: #111827 !important;
+    padding: 3rem 2rem !important;
+    margin: 0 0 0 0 !important;
+    box-shadow: none !important;
+    height: 95vh !important; /* A4縦サイズに合わせる */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    page-break-after: always !important; /* 表紙の後に強制改ページ */
+    break-after: page !important;
+  }
+
+  .cover-divider {
+    display: none !important; /* 表紙の直後の区切り線は不要 */
+  }
+
+  .header-student-info {
+    background: #ffffff !important;
+    border: 1.5px solid #b8860b !important;
+    max-width: 360px !important;
+    margin: 3.5rem auto 2rem !important;
+    padding: 1.2rem 2rem !important;
+    width: 80% !important;
+  }
+
+  .student-info-row {
+    border-bottom: 1px dashed rgba(184, 134, 11, 0.4) !important;
+  }
+
+  .info-label {
+    color: #8b6508 !important;
+  }
+
+  .info-value {
+    color: #111827 !important;
+  }
+
+  .header-title-main {
+    font-size: 24pt !important;
+    color: #8b6508 !important;
+    -webkit-text-fill-color: initial !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .header-title-sub {
+    font-size: 14pt !important;
+    color: #374151 !important;
+  }
+
+  .header-badge {
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #991b1b !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .header-meta-bar {
+    border-top-color: #d1d5db !important;
+    color: #4b5563 !important;
+    margin-top: 2rem !important;
+  }
+
+  /* セクション見出しの調整 */
+  .section-title-wrap {
+    margin-bottom: 1.2rem !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .section-title {
+    color: #8b6508 !important;
+    font-size: 14pt !important;
+  }
+
+  .section-number {
+    color: #b91c1c !important;
+  }
+
+  /* 和モダンカードの印刷最適化 */
+  .wafu-card,
+  .checklist-card,
+  .discussion-box,
+  .summary-banner {
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    border-top: 3px solid #b8860b !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    padding: 1.2rem !important;
+    margin-bottom: 1.5rem !important;
+    /* ページ境界でカードが分割されるのを防止 */
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .wafu-card::before { display: none; }
+
+  /* 「研究の狙いや動機」セクションの印刷用文字色調整 */
+  .motivation-text p {
+    color: #111827 !important; /* 白背景で視認しやすい暗い色に変更 */
+  }
+
+  .motivation-highlight {
+    background: #fdfaf2 !important; /* 明るい生成り背景 */
+    border-left: 3px solid #b8860b !important;
+    color: #8b6508 !important; /* 濃い金色 */
+  }
+
+  /* 研究方法 (フローチャート) */
+  .flow-step-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .flow-badge {
+    background: #b8860b !important;
+    color: #ffffff !important;
+  }
+
+  .flow-content h4 { color: #8b6508 !important; }
+  .flow-content p { color: #4b5563 !important; }
+
+  /* 実験カードの印刷分割回避 */
+  .exp-card {
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .exp-card-header {
+    background: #f3f4f6 !important;
+    border-bottom: 1px solid #d1d5db !important;
+  }
+
+  .exp-title { color: #1f2937 !important; }
+  .exp-tag { background: #fef2f2 !important; color: #991b1b !important; border-color: #fca5a5 !important; }
+
+  .exp-card-body {
+    grid-template-columns: 240px 1fr !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  .exp-image-box img {
+    height: 160px !important;
+  }
+
+  .exp-detail-item {
+    background: #f9fafb !important;
+    border-left-color: #b8860b !important;
+  }
+
+  .exp-detail-label { color: #8b6508 !important; }
+  .exp-detail-val { color: #111827 !important; }
+
+  .exp-flow-box {
+    background: #f9fafb !important;
+    border: 1px dashed #d1d5db !important;
+  }
+
+  .exp-flow-title {
+    color: #8b6508 !important;
+  }
+
+  .exp-flow-text {
+    color: #111827 !important;
+  }
+
+  /* 表形式 */
+  .result-table {
+    background: #ffffff !important;
+  }
+
+  .result-table th {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+    border-bottom-color: #b8860b !important;
+  }
+
+  .result-table td {
+    border-bottom-color: #e5e7eb !important;
+    color: #1f2937 !important;
+  }
+
+  .status-badge-success {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+    border-color: #86efac !important;
+  }
+
+  /* 考察・チェックリスト・まとめの印刷用文字色調整 */
+  .discussion-box p {
+    color: #111827 !important;
+  }
+
+  .discussion-quote {
+    background: #fef2f2 !important;
+    color: #991b1b !important;
+  }
+
+  .checklist-card h4 {
+    color: #8b6508 !important;
+  }
+
+  #checklistCounter {
+    color: #b91c1c !important;
+  }
+
+  .checklist-item {
+    background: #ffffff !important;
+    border-color: #d1d5db !important;
+  }
+
+  .checklist-text {
+    color: #111827 !important; /* 白背景で視認しやすい暗い色に変更 */
+  }
+
+  .checklist-item.checked {
+    background: #f0fdf4 !important;
+    border-color: #22c55e !important;
+  }
+
+  .custom-checkbox {
+    border-color: #b8860b !important;
+  }
+
+  .checklist-item.checked .custom-checkbox {
+    background: #16a34a !important;
+    border-color: #16a34a !important;
+    color: #ffffff !important;
+  }
+
+  .summary-headline {
+    color: #8b6508 !important; /* 印刷用の濃い金色 */
+  }
+
+  .summary-body {
+    color: #111827 !important; /* 白背景で視認しやすい暗い色に変更 */
+  }
+
+  /* 印刷用ページ番号とフッター */
+  .print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 8pt;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 4px;
+  }
+
+  /* 未認証時は印刷画面を完全に白紙にする（情報漏洩ブロック） */
+  body:not(.is-unlocked) #mainContent {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   簡易アクセス制限（合言葉ロック画面）スタイル
+   ========================================================================== */
+.lock-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(14, 21, 37, 0.95) 0%, rgba(7, 9, 14, 0.98) 80%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1.5rem;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.lock-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 背景模様の複製（ロック画面用） */
+.lock-screen::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='0.6'%3E%3Cpath d='M14 0l14 8v16l-14 8L0 24V8zM14 49l14-8V25l-14-8L0 25v16z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath d='M0 40 A40 40 0 0 1 80 40 M10 40 A30 30 0 0 1 70 40 M20 40 A20 20 0 0 1 60 40 M30 40 A10 10 0 0 1 50 40' fill='none' stroke='%2300e5ff' stroke-width='0.4' opacity='0.3'/%3E%3C/svg%3E");
+}
+
+.lock-card {
+  background: var(--bg-card);
+  border: var(--border-gold-thick);
+  border-radius: var(--border-radius);
+  padding: 3rem 2rem;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: lock-card-init 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-card::before {
+  content: "";
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px dashed rgba(212, 175, 55, 0.25);
+  border-radius: calc(var(--border-radius) - 2px);
+  pointer-events: none;
+}
+
+@keyframes lock-card-init {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.lock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  background: rgba(196, 30, 58, 0.15);
+  border: 1px solid var(--crimson-accent);
+  color: #ff8fa3;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+}
+
+.lock-title {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--text-gold);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.lock-desc {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.lock-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.lock-input-group input {
+  background: rgba(7, 9, 14, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  color: var(--text-main);
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-family: var(--font-body);
+}
+
+.lock-input-group input:focus {
+  outline: none;
+  border-color: var(--cyber-cyan);
+  box-shadow: 0 0 10px var(--cyber-cyan-glow);
+}
+
+.lock-input-group button {
+  background: var(--gold-gradient);
+  color: #07090e;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  transition: all 0.2s ease;
+}
+
+.lock-input-group button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+.lock-error-msg {
+  color: #ff4d6d;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  min-height: 1.2rem;
+  font-weight: 700;
+}

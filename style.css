@@ -1025,13 +1025,11 @@ body::before {
     break-after: avoid !important;
   }
 
-  /* セクションごとの強制改ページによるページ割りの完全制御 */
+  /* セクションごとの強制改ページによるページ割りの完全制御（空白削減のためグループ化） */
   #motivation,
-  #method,
   #experiments,
   #results-table,
-  #safety-checklist,
-  #summary {
+  #safety-checklist {
     page-break-before: always !important;
     break-before: page !important;
   }
@@ -1083,23 +1081,49 @@ body::before {
     color: #8b6508 !important; /* 濃い金色 */
   }
 
-  /* 研究方法 (フローチャート) */
+  /* 研究方法 (フローチャート) 印刷時コンパクト化（「狙いや動機」と同ページに収めるため） */
+  .flow-container {
+    gap: 0.1rem !important; /* カードと矢印の隙間を狭く */
+  }
+
   .flow-step-card {
     background: #ffffff !important;
     border: 1px solid #e5e7eb !important;
     color: #111827 !important;
     box-shadow: none !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    padding: 0.4rem 0.8rem !important; /* 内側余白を小さく */
+    margin: 0 !important;
+    grid-template-columns: 36px 1fr !important; /* バッジエリアを狭く */
+    gap: 0.6rem !important;
   }
 
   .flow-badge {
     background: #b8860b !important;
     color: #ffffff !important;
+    width: 26px !important; /* 丸数字バッジを縮小 */
+    height: 26px !important;
+    font-size: 0.8rem !important;
   }
 
-  .flow-content h4 { color: #8b6508 !important; }
-  .flow-content p { color: #4b5563 !important; }
+  .flow-content h4 {
+    color: #8b6508 !important;
+    font-size: 9.5pt !important;
+    margin-bottom: 0.1rem !important;
+  }
+
+  .flow-content p {
+    color: #4b5563 !important;
+    font-size: 8.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .flow-arrow-down {
+    margin: 0.05rem auto !important; /* 矢印の余白をほぼゼロに */
+    font-size: 0.75rem !important;
+    height: auto !important;
+  }
 
   /* 実験カードの印刷分割回避（実験1と実験2を同一ページに収めるようコンパクトに設計） */
   .exp-card {
@@ -1204,10 +1228,13 @@ body::before {
   .checklist-item {
     background: #ffffff !important;
     border-color: #d1d5db !important;
+    padding: 0.4rem 0.8rem !important; /* 余白を縮小してコンパクト化 */
+    margin-bottom: 0.4rem !important; /* 項目同士の間隔を縮小 */
   }
 
   .checklist-text {
     color: #111827 !important; /* 白背景で視認しやすい暗い色に変更 */
+    font-size: 9pt !important;
   }
 
   .checklist-item.checked {
@@ -1217,6 +1244,8 @@ body::before {
 
   .custom-checkbox {
     border-color: #b8860b !important;
+    width: 16px !important; /* チェックボックスの大きさを最適化 */
+    height: 16px !important;
   }
 
   .checklist-item.checked .custom-checkbox {

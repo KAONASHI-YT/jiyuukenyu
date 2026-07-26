@@ -1030,9 +1030,18 @@ body::before {
   #method,
   #experiments,
   #results-table,
-  #safety-checklist {
+  #safety-checklist,
+  #summary {
     page-break-before: always !important;
     break-before: page !important;
+  }
+
+  /* セクション内部の改ページ分割をブロック */
+  #summary,
+  #discussion,
+  #safety-checklist {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .section-title {
@@ -1092,7 +1101,7 @@ body::before {
   .flow-content h4 { color: #8b6508 !important; }
   .flow-content p { color: #4b5563 !important; }
 
-  /* 実験カードの印刷分割回避（各実験カードを1ページずつに割り振る） */
+  /* 実験カードの印刷分割回避（実験1と実験2を同一ページに収めるようコンパクトに設計） */
   .exp-card {
     background: #ffffff !important;
     border: 1px solid #d1d5db !important;
@@ -1100,48 +1109,56 @@ body::before {
     box-shadow: none !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 0 !important;
-    page-break-after: always !important; /* 各実験カードをそれぞれ1ページで独立させる */
-    break-after: page !important;
+    margin-bottom: 0.6rem !important; /* カード同士の間隔を大幅に縮小 */
   }
 
   .exp-card-header {
     background: #f3f4f6 !important;
     border-bottom: 1px solid #d1d5db !important;
+    padding: 0.4rem 0.8rem !important; /* ヘッダーの余白を縮小 */
   }
 
-  .exp-title { color: #1f2937 !important; }
-  .exp-tag { background: #fef2f2 !important; color: #991b1b !important; border-color: #fca5a5 !important; }
+  .exp-title { font-size: 11pt !important; color: #1f2937 !important; }
+  .exp-tag { background: #fef2f2 !important; color: #991b1b !important; border-color: #fca5a5 !important; padding: 0.1rem 0.4rem !important; }
 
   .exp-card-body {
-    grid-template-columns: 240px 1fr !important;
-    gap: 1rem !important;
-    padding: 1rem !important;
+    grid-template-columns: 180px 1fr !important; /* 画像幅を狭くして縦幅を抑える */
+    gap: 0.8rem !important;
+    padding: 0.8rem !important; /* 内側余白を縮小 */
   }
 
   .exp-image-box img {
-    height: 160px !important;
+    height: 125px !important; /* 画像高さを縮小 */
+  }
+
+  .exp-details-list {
+    gap: 0.4rem !important; /* リスト項目間隔を縮小 */
   }
 
   .exp-detail-item {
     background: #f9fafb !important;
     border-left-color: #b8860b !important;
+    padding: 0.4rem 0.6rem !important; /* 余白を縮小 */
   }
 
-  .exp-detail-label { color: #8b6508 !important; }
-  .exp-detail-val { color: #111827 !important; }
+  .exp-detail-label { color: #8b6508 !important; font-size: 8.5pt !important; }
+  .exp-detail-val { color: #111827 !important; font-size: 9pt !important; }
 
   .exp-flow-box {
     background: #f9fafb !important;
     border: 1px dashed #d1d5db !important;
+    padding: 0.5rem 0.8rem !important; /* 余白を縮小 */
+    margin-top: 0.4rem !important;
   }
 
   .exp-flow-title {
     color: #8b6508 !important;
+    font-size: 8.5pt !important;
   }
 
   .exp-flow-text {
     color: #111827 !important;
+    font-size: 9pt !important;
   }
 
   /* 表形式 */
